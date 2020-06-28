@@ -1,0 +1,55 @@
+<div class="track-container">
+    <canvas #track class="track"
+        [ngClass]="{p1: state===2 && activePlayer===0,p2: state===2 && activePlayer===1,p3: state===2 && activePlayer===2,p4: state===2 && activePlayer===3}">
+    </canvas>
+    <div class="right-column">
+        <div>
+            <h1>Graph Racers</h1>
+            <p>Turn: {{ turn }}</p>
+            <div id="playerInfo"
+                    [ngClass]="{p1: state===2 && activePlayer===0,p2: state===2 && activePlayer===1,p3: state===2 && activePlayer===2,p4: state===2 && activePlayer===3}">
+                <p>Player: <span id="playerColor"
+                        [ngClass]="{p1: state===2 && activePlayer===0,p2: state===2 && activePlayer===1,p3: state===2 && activePlayer===2,p4: state===2 && activePlayer===3}">
+                    </span></p>
+                <p>Lap: 
+                    <span id="lap" [ngClass]="{lap: laps[activePlayer]>=1, p1: activePlayer===0,p2: activePlayer===1,p3: activePlayer===2,p4: activePlayer===3, invisible: (state===1?lapCountInput:lapCount)<1}"></span>
+                    <span id="lap" [ngClass]="{lap: laps[activePlayer]>=2, p1: activePlayer===0,p2: activePlayer===1,p3: activePlayer===2,p4: activePlayer===3, invisible: (state===1?lapCountInput:lapCount)<2}"></span>
+                    <span id="lap" [ngClass]="{lap: laps[activePlayer]>=3, p1: activePlayer===0,p2: activePlayer===1,p3: activePlayer===2,p4: activePlayer===3, invisible: (state===1?lapCountInput:lapCount)<3}"></span>
+                </p>
+                <p>Speed: {{ speed }}</p>
+                <p>Damage: 
+                    <span id="damage" [ngClass]="{damage: damage>=1, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<1}"></span>
+                    <span id="damage" [ngClass]="{damage: damage>=2, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<2}"></span>
+                    <span id="damage" [ngClass]="{damage: damage>=3, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<3}"></span>
+                    <span id="damage" [ngClass]="{damage: damage>=4, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<4}"></span>
+                    <span id="damage" [ngClass]="{damage: damage>=5, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<5}"></span>
+                </p>
+            </div>
+        </div>
+        <div [ngClass]="{invisible: state!==1}">
+        <div class="flexRow" [ngClass]="{invisible: state!==1}">
+            <span class="stretch-label">Players:</span>
+            <button [ngClass]="{invisible: state!==1, selected: playerCountInput===2}" (click)="playTwo()" class="button toggleBtn">2</button>
+            <button [ngClass]="{invisible: state!==1, selected: playerCountInput===3}" (click)="playThree()" class="button toggleBtn">3</button>
+            <button [ngClass]="{invisible: state!==1, selected: playerCountInput===4}" (click)="playFour()" class="button toggleBtn">4</button>
+        </div>
+        <div class="flexRow" [ngClass]="{invisible: state!==1}">
+            <span class="stretch-label">Damage:</span>
+            <button [ngClass]="{invisible: state!==1, selected: playerDamageMaxInput===3}" (click)="damageThree()" class="button toggleBtn">3</button>
+            <button [ngClass]="{invisible: state!==1, selected: playerDamageMaxInput===4}" (click)="damageFour()" class="button toggleBtn">4</button>
+            <button [ngClass]="{invisible: state!==1, selected: playerDamageMaxInput===5}" (click)="damageFive()" class="button toggleBtn">5</button>
+        </div>
+        <div class="flexRow" [ngClass]="{invisible: state!==1}">
+            <span class="stretch-label">Laps:</span>
+            <button [ngClass]="{invisible: state!==1, selected: lapCountInput===1}" (click)="lapsOne()" class="button toggleBtn">1</button>
+            <button [ngClass]="{invisible: state!==1, selected: lapCountInput===2}" (click)="lapsTwo()" class="button toggleBtn">2</button>
+            <button [ngClass]="{invisible: state!==1, selected: lapCountInput===3}" (click)="lapsThree()" class="button toggleBtn">3</button>
+        </div>
+        </div>
+        <div>
+            <button [ngClass]="{invisible: state!==1}" (click)="play()" class="button play-button">Play</button>
+            <button [ngClass]="{invisible: state===1 || state===2}" (click)="newGame()" class="button play-button">New Game</button>
+            <button [ngClass]="{invisible: state!==2}" (click)="restart()" class="button play-button">Restart</button>
+        </div>
+    </div>
+</div>

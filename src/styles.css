@@ -1,1 +1,175 @@
 /* You can add global styles to this file, and also import other style files */
+*
+{
+    font-family: 'Press Start 2P', monospace;
+}
+
+html,
+body {
+    display: block;
+    margin: 0;
+    padding: 0;
+    width:100vw;
+    height:100vh;
+    position: fixed;
+}
+
+#mainDiv {
+    background-color: #ccc;
+    width:100vw;
+    height:100vh;
+    margin: 0;
+    padding: 0;
+    position: relative;
+}
+
+#appMsg,
+#appTrack {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.track-container {
+    display: flex;
+}
+#msgBack{
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.2);
+    cursor: pointer;
+}
+#msgDiv{
+    background-color: #ccc;
+    padding: 25px 50px;
+    cursor: pointer;
+}
+#appMsg.dismissed,
+#msgBack.dismissed,
+#msgDiv.dismissed {
+    visibility: hidden;
+    pointer-events: none;
+}
+#msgDiv p {
+    font-size: x-large;
+    color: #338800;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: 320px 200px;
+}
+
+.right-column {
+    display: flex;
+    flex-direction: column;
+    flex-shrink: unset;
+    justify-content: space-between;
+    padding: 5px 10px;
+    min-width: 200px;
+}
+
+.track {
+    border: 5px solid #000;
+    cursor: pointer;
+}
+
+.play-button {
+    background-color: #338800;
+    font-size: 16px;
+    padding: 15px 30px;
+    cursor: pointer;
+    width: 100%;
+}
+.button:hover {
+    filter: brightness(1.1);
+}
+.button:active {
+    filter: brightness(1.25);
+}
+
+#damage,
+#lap,
+#playerColor {
+    background-color: rgba(0, 0, 0, 0.1);
+    min-width: 15px;
+    min-height: 15px;
+    display: inline-block;
+    vertical-align: bottom;
+    margin: 0 2px;
+}
+#damage {
+    min-width: 10px;
+}
+
+#playerInfo {
+    border: 5px solid #000;
+    padding: 5px 10px;
+}
+#lap.lap {
+    background-color: #338800;
+}
+#lap.lap.p1,
+#playerColor.p1 {
+    background-color: #5577DD;
+}
+#lap.lap.p2,
+#playerColor.p2 {
+    background-color: #DDCC33;
+}
+#lap.lap.p3,
+#playerColor.p3 {
+    background-color: #8855DD;
+}
+#lap.lap.p4,
+#playerColor.p4 {
+    background-color: #DD7733;
+}
+#playerInfo.p1,
+.track.p1 {
+    border-color: #5577DD;
+}
+#playerInfo.p2,
+.track.p2 {
+    border-color: #DDCC33;
+}
+#playerInfo.p3,
+.track.p3 {
+    border-color: #8855DD;
+}
+#playerInfo.p4,
+.track.p4 {
+    border-color: #DD7733;
+}
+#damage.damage {
+    background-color: #CC3333;
+}
+.invisible {
+    visibility: collapse;
+    pointer-events: none;
+    width: 0;
+    height: 0;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+.flexRow {
+    display: flex;
+    flex-direction: row;
+    margin: 5px 10px;
+}
+.toggleBtn {
+    margin: 2px;
+}
+.toggleBtn.selected {
+    filter: brightness(1.5);
+    border: #338800;
+}
+.stretch-label {
+    width: 100%;
+}
