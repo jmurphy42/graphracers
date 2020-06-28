@@ -45,6 +45,12 @@
             <button [ngClass]="{invisible: state!==1, selected: lapCountInput===2}" (click)="lapsTwo()" class="button toggleBtn">2</button>
             <button [ngClass]="{invisible: state!==1, selected: lapCountInput===3}" (click)="lapsThree()" class="button toggleBtn">3</button>
         </div>
+        <div class="flexRow" [ngClass]="{invisible: state!==1}">
+            <span class="stretch-label">Track:</span>
+            <button [ngClass]="{invisible: state!==1, selected: trackNumberInput===1}" (click)="trackOne()" class="button toggleBtn">1</button>
+            <button [ngClass]="{invisible: state!==1, selected: trackNumberInput===2}" (click)="trackTwo()" class="button toggleBtn">2</button>
+            <button [ngClass]="{invisible: state!==1, selected: trackNumberInput===3}" (click)="trackThree()" class="button toggleBtn">3</button>
+        </div>
         </div>
         <div>
             <button [ngClass]="{invisible: state!==1}" (click)="play()" class="button play-button">Play</button>

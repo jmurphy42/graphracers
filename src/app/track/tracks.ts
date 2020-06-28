@@ -283,18 +283,120 @@ export class Tracks {
         track.push(this.getTrackRow(24, 'XXXXX.......XXXX.......XXXXX........XXXX'));
         track.push(this.getTrackRow(25, 'XXXXXXX.......XXXXXXXXXXXXXX.......XXXXX'));
         track.push(this.getTrackRow(26, 'XXXXXXXX.......XXXXXXXXXXXXX......XXXXXX'));
-        track.push(this.getTrackRow(27, 'XXXXXXXX.......XXXXXXXXXXXXX......XXXXXX'));
-        track.push(this.getTrackRow(28, 'XXXXXX........XXXXXXXXXXXXXX......XXXXXX'));
-        track.push(this.getTrackRow(29, 'XXXX........XXXXXXXXXXXXXXXX.......XXXXX'));
-        track.push(this.getTrackRow(30, 'XXX.......XXXXXXXXXXXXXXXXXXX.......XXXX'));
+        track.push(this.getTrackRow(27, 'XXXXXX........XXXXXXXXXXXXXX......XXXXXX'));
+        track.push(this.getTrackRow(28, 'XXXX........XXXXXXXXXXXXXXXX.......XXXXX'));
+        track.push(this.getTrackRow(29, 'XXX.......XXXXXXXXXXXXXXXXXXX.......XXXX'));
+        track.push(this.getTrackRow(30, 'XX.......XXXXXXXXXXXXXXXXXXXXXX.......XX'));
         track.push(this.getTrackRow(31, 'XX.......XXXXXXXXXXXXXXXXXXXXXX.......XX'));
-        track.push(this.getTrackRow(32, 'XX.......XXXXXXXXXXXXXXXXXXXXXX.......XX'));
-        track.push(this.getTrackRow(33, 'XX........XXXXXXXXXXXXXXXXXXX.........XX'));
-        track.push(this.getTrackRow(34, 'XX.....................S..............XX'));
-        track.push(this.getTrackRow(35, 'XXX....................3.............XXX'));
-        track.push(this.getTrackRow(36, 'XXXX...................1............XXXX'));
-        track.push(this.getTrackRow(37, 'XXXXXXX................2.........XXXXXXX'));
-        track.push(this.getTrackRow(38, 'XXXXXXXXXX.............4......XXXXXXXXXX'));
+        track.push(this.getTrackRow(32, 'XX........XXXXXXXXXXXXXXXXXXX.........XX'));
+        track.push(this.getTrackRow(33, 'XX.....................S..............XX'));
+        track.push(this.getTrackRow(34, 'XXX....................3.............XXX'));
+        track.push(this.getTrackRow(35, 'XXXX...................1............XXXX'));
+        track.push(this.getTrackRow(36, 'XXXXXXX................2.........XXXXXXX'));
+        track.push(this.getTrackRow(37, 'XXXXXXXXXX.............4......XXXXXXXXXX'));
+        track.push(this.getTrackRow(38, 'XXXXXXXXXXXXXX.........S..XXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(39, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+
+        if (track.length !== ROWS) {
+            throw "Invalid track.";
+        }
+
+        return track;
+    }
+
+    public static getTrackTwo(): Cell[][] {
+        const track: Cell[][] = [];
+
+        track.push(this.getTrackRow(0,  'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(1,  'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(2,  'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(3,  'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(4,  'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(5,  'XXXXXXXXX......................XXXXXXXXX'));
+        track.push(this.getTrackRow(6,  'XXXXXX............................XXXXXX'));
+        track.push(this.getTrackRow(7,  'XXXX................................XXXX'));
+        track.push(this.getTrackRow(8,  'XXX..................................XXX'));
+        track.push(this.getTrackRow(9,  'XXX..................................XXX'));
+        track.push(this.getTrackRow(10, 'XX....................................XX'));
+        track.push(this.getTrackRow(11, 'XX...........XXXXXXXXXXXXXX...........XX'));
+        track.push(this.getTrackRow(12, 'XX........XXXXXXXXXXXXXXXXXXXX........XX'));
+        track.push(this.getTrackRow(13, 'X........XXXXXXXXXXXXXXXXXXXXXX........X'));
+        track.push(this.getTrackRow(14, 'X.......XXXXXXXXXXXXXXXXXXXXXXXX.......X'));
+        track.push(this.getTrackRow(15, 'X.......XXXXXXXXXXXXXXXXXXXXXXXX.......X'));
+        track.push(this.getTrackRow(16, 'X......XXXXXXXXXXXXXXXXXXXXXXXXXX......X'));
+        track.push(this.getTrackRow(17, 'X......XXXXXXXXXXXXXXXXXXXXXXXXXX......X'));
+        track.push(this.getTrackRow(18, 'X......XXXXXXXXXXXXXXXXXXXXXXXXXX......X'));
+        track.push(this.getTrackRow(19, 'X......XXXXXXXXXXXXXXXXXXXXXXXXXX......X'));
+        track.push(this.getTrackRow(20, 'X......XXXXXXXXXXXXXXXXXXXXXXXXXX......X'));
+        track.push(this.getTrackRow(21, 'X......XXXXXXXXXXXXXXXXXXXXXXXXXX......X'));
+        track.push(this.getTrackRow(22, 'X......XXXXXXXXXXXXXXXXXXXXXXXXXX......X'));
+        track.push(this.getTrackRow(23, 'X......XXXXXXXXXXXXXXXXXXXXXXXXXX......X'));
+        track.push(this.getTrackRow(24, 'X.......XXXXXXXXXXXXXXXXXXXXXXXX.......X'));
+        track.push(this.getTrackRow(25, 'X.......XXXXXXXXXXXXXXXXXXXXXXXX.......X'));
+        track.push(this.getTrackRow(26, 'X........XXXXXXXXXXXXXXXXXXXXXX........X'));
+        track.push(this.getTrackRow(27, 'XX........XXXXXXXXXXXXXXXXXXXX........XX'));
+        track.push(this.getTrackRow(28, 'XX...........XXXXXXXXXXXXXX...........XX'));
+        track.push(this.getTrackRow(29, 'XX.....................S..............XX'));
+        track.push(this.getTrackRow(30, 'XXX....................3.............XXX'));
+        track.push(this.getTrackRow(31, 'XXX....................1.............XXX'));
+        track.push(this.getTrackRow(32, 'XXXX...................2............XXXX'));
+        track.push(this.getTrackRow(33, 'XXXXXX.................4..........XXXXXX'));
+        track.push(this.getTrackRow(34, 'XXXXXXXXX..............S.......XXXXXXXXX'));
+        track.push(this.getTrackRow(35, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(36, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(37, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(38, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(39, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+
+        if (track.length !== ROWS) {
+            throw "Invalid track.";
+        }
+
+        return track;
+    }
+
+    public static getTrackThree(): Cell[][] {
+        const track: Cell[][] = [];
+
+        track.push(this.getTrackRow(0,  'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
+        track.push(this.getTrackRow(1,  'XXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXXXXX'));
+        track.push(this.getTrackRow(2,  'XXXXXXXXXXXXXXXXXXXXXXXXX...........XXXX'));
+        track.push(this.getTrackRow(3,  'XXXXXX.........XXXXXXXXX..............XX'));
+        track.push(this.getTrackRow(4,  'XXXX.............XXXXXX...............XX'));
+        track.push(this.getTrackRow(5,  'XXX................XXX.................X'));
+        track.push(this.getTrackRow(6,  'XXX....................................X'));
+        track.push(this.getTrackRow(7,  'XXX...........................XX.......X'));
+        track.push(this.getTrackRow(8,  'XXX..........XXX.............XXXX......X'));
+        track.push(this.getTrackRow(9,  'XXX........XXXXXXX.........XXXXXX......X'));
+        track.push(this.getTrackRow(10, 'XXX........XXXXXXXXX.....XXXXXXX......XX'));
+        track.push(this.getTrackRow(11, 'XXX........XXXXXXXXXXXXXXXXXXXX.......XX'));
+        track.push(this.getTrackRow(12, 'XXXX.........XXXXXXXXXXXXXXXXX.......XXX'));
+        track.push(this.getTrackRow(13, 'XXXXX...........XXXXXXXXXXXXX........XXX'));
+        track.push(this.getTrackRow(14, 'XXXXXXX...........XXXXXXXXXX........XXXX'));
+        track.push(this.getTrackRow(15, 'XXXXXXXXXX..........XXXXXXX........XXXXX'));
+        track.push(this.getTrackRow(16, 'XXXXXXXXXXXX.........XXXXXX........XXXXX'));
+        track.push(this.getTrackRow(17, 'XXXXXXXXXXXXXX........XXXXX.......XXXXXX'));
+        track.push(this.getTrackRow(18, 'XXXXXXXXXXXXXXX........XXXX.......XXXXXX'));
+        track.push(this.getTrackRow(19, 'XXXXXXXXXXXXXXXX.......XXXX.......XXXXXX'));
+        track.push(this.getTrackRow(20, 'XXXXXXXXXXXXXXXXX.......XXX........XXXXX'));
+        track.push(this.getTrackRow(21, 'XXXX.......XXXXXXX......XXXX........XXXX'));
+        track.push(this.getTrackRow(22, 'XX...........XXXXXX......XXX.........XXX'));
+        track.push(this.getTrackRow(23, 'X..............XXXX.......XXX.........XX'));
+        track.push(this.getTrackRow(24, 'X................XX........XXX........XX'));
+        track.push(this.getTrackRow(25, 'X..........................XXXXX.......X'));
+        track.push(this.getTrackRow(26, 'X......XXX.................XXXXXX......X'));
+        track.push(this.getTrackRow(27, 'X......XXXX................XXXXXXX.....X'));
+        track.push(this.getTrackRow(28, 'X.......XXXX..............XXXXXXXX.....X'));
+        track.push(this.getTrackRow(29, 'X.......XXXXXX............XXXXXXX......X'));
+        track.push(this.getTrackRow(30, 'X........XXXXXX..........XXXXXXX.......X'));
+        track.push(this.getTrackRow(31, 'XX........XXXXXXXXXXXXXXXXXXXXX.......XX'));
+        track.push(this.getTrackRow(32, 'XX...........XXXXXXXXXXXXXXXX.........XX'));
+        track.push(this.getTrackRow(33, 'XX.......................S...........XXX'));
+        track.push(this.getTrackRow(34, 'XXX......................3...........XXX'));
+        track.push(this.getTrackRow(35, 'XXX......................1..........XXXX'));
+        track.push(this.getTrackRow(36, 'XXXX.....................2.........XXXXX'));
+        track.push(this.getTrackRow(37, 'XXXXXX...................4.......XXXXXXX'));
+        track.push(this.getTrackRow(38, 'XXXXXXXXX................S.....XXXXXXXXX'));
         track.push(this.getTrackRow(39, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
 
         if (track.length !== ROWS) {

@@ -36,6 +36,8 @@ export class TrackComponent implements OnInit {
   playerDamageMax: number = 3;
   lapCountInput: number = 1;
   lapCount: number = 1;
+  trackNumberInput: number = 1;
+  trackNumber: number = 1;
 
   players: Cell[] = [];
   playersPrev: Cell[] = [];
@@ -75,12 +77,17 @@ export class TrackComponent implements OnInit {
   lapsTwo() { this.lapCountInput = 2; }
   lapsThree() { this.lapCountInput = 3; }
 
+  trackOne() { this.trackNumberInput = 1; this.baseTrack = this.getTrack(this.trackNumberInput); this.updateTrackPlayers(); }
+  trackTwo() { this.trackNumberInput = 2; this.baseTrack = this.getTrack(this.trackNumberInput); this.updateTrackPlayers(); }
+  trackThree() { this.trackNumberInput = 3; this.baseTrack = this.getTrack(this.trackNumberInput); this.updateTrackPlayers(); }
+
   play() {
     if (this.state === STATE.PREGAME) {
       this.messageEvent.emit(["Graph Racers, start your engines!"])
       this.playerCount = this.playerCountInput;
       this.playerDamageMax = this.playerDamageMaxInput;
       this.lapCount = this.lapCountInput;
+      this.trackNumber = this.trackNumberInput;
       this.state = STATE.GAME;
       this.resetGame();
       this.time.start = performance.now();
@@ -283,8 +290,16 @@ export class TrackComponent implements OnInit {
     return Tracks.getCell(this.track, x, y);
   }
 
-  private getTrack(): Cell[][] {
-    return Tracks.getTrackOne();
+  private getTrack(num: number): Cell[][] {
+    switch (num) {
+      case 2:
+        return Tracks.getTrackTwo();
+      case 3:
+        return Tracks.getTrackThree();
+      case 1:
+      default:
+        return Tracks.getTrackOne();
+    }
   }
 
   private updateTrackPlayers() {
@@ -374,7 +389,7 @@ export class TrackComponent implements OnInit {
     this.damage = 0;
     this.lap = 0;
     this.laps = [0, 0, 0, 0];
-    this.baseTrack = this.getTrack();
+    this.baseTrack = this.getTrack(this.trackNumber);
     this.track = this.baseTrack;
     this.updateTrackPlayers();
     this.initPlayers(); // must do after getting track
