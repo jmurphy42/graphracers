@@ -3,6 +3,7 @@ import { COLS, ROWS, BLOCK_SIZE, CELL_TYPE, STATE, COLOR } from 'src/consts';
 import { Cell } from './cell';
 import { Tracks } from './tracks';
 import { Logger } from '../logger';
+import { Track } from './track';
 
 @Component({
   selector: 'app-track',
@@ -14,14 +15,14 @@ export class TrackComponent implements OnInit {
   @ViewChild('track', { static: true })
   canvas: ElementRef<HTMLCanvasElement>;
 
-  @Output() messageEvent = new EventEmitter<string[]>()
+  @Output() messageEvent = new EventEmitter<string[]>();
 
   ctx: CanvasRenderingContext2D;
   turn: number = 0;
   speed: number = 0;
   damage: number = 0;
   time: { start: number; elapsed: number; };
-  state: STATE = STATE.NOGAME;
+  state: STATE = STATE.PREGAME;
 
   isPreGame: boolean = this.state === STATE.PREGAME;
   playButtonText: string = this.state === STATE.PREGAME ? "Start" 
@@ -44,17 +45,22 @@ export class TrackComponent implements OnInit {
   playersDamage: number[] = [0, 0, 0, 0];
   lap: number = 0;
   laps: number[] = [0, 0, 0, 0];
+  ckpt: number = 0;
+  ckpts: number[] = [0, 0, 0, 0];
 
   playersTrajectory: Cell[][] = [[],[],[],[]];
 
   activePlayer: number = 0;
 
-  baseTrack: Cell[][];
-  track: Cell[][];
+  baseTrack: Track;
+  track: Track;
+  totalCkpts: number = 0;
 
   ngOnInit(): void {
     this.initTrack();
-    this.messageEvent.emit(["Welcome, Graph Racers!", "Click 'New Game' to start."])
+    this.playerCount = 0;
+    this.resetGame();
+    this.messageEvent.emit(["Welcome, Graph Racers!", "Start your engines!"])
   }
 
   newGame() {
@@ -80,10 +86,11 @@ export class TrackComponent implements OnInit {
   trackOne() { this.trackNumberInput = 1; this.baseTrack = this.getTrack(this.trackNumberInput); this.updateTrackPlayers(); }
   trackTwo() { this.trackNumberInput = 2; this.baseTrack = this.getTrack(this.trackNumberInput); this.updateTrackPlayers(); }
   trackThree() { this.trackNumberInput = 3; this.baseTrack = this.getTrack(this.trackNumberInput); this.updateTrackPlayers(); }
+  trackFour() { this.trackNumberInput = 4; this.baseTrack = this.getTrack(this.trackNumberInput); this.updateTrackPlayers(); }
+  trackFive() { this.trackNumberInput = 5; this.baseTrack = this.getTrack(this.trackNumberInput); this.updateTrackPlayers(); }
 
   play() {
     if (this.state === STATE.PREGAME) {
-      this.messageEvent.emit(["Graph Racers, start your engines!"])
       this.playerCount = this.playerCountInput;
       this.playerDamageMax = this.playerDamageMaxInput;
       this.lapCount = this.lapCountInput;
@@ -107,13 +114,21 @@ export class TrackComponent implements OnInit {
     if (!this.track) {
       return;
     }
-    Tracks.allCells(this.track, cell => cell.hover = false);
+    this.track.toAllCells(cell => cell.hover = false);
     const cell = this.getCellUnderMouse(event.clientX - 6, event.clientY - 6);
     if (cell) {
       Logger.debounce(`mouse move stopped: pt ${event.clientX},${event.clientY} --> cell ${cell.x},${cell.y}`);
-      Tracks.thisCell(this.track, cell, cell => cell.hover = true);
+      this.track.toThisCell(cell, cell => cell.hover = true);
       this.drawTrack();
     }
+  }
+
+  handleMouseLeave(event) {
+    if (!this.track) {
+      return;
+    }
+    this.track.toAllCells(cell => cell.hover = false);
+    this.drawTrack();
   }
 
   handleMouseClick(event) {
@@ -152,9 +167,10 @@ export class TrackComponent implements OnInit {
     this.initialNextPlayer = -1; // reset, we have a valid next player
     let curCell = this.players[this.activePlayer];
     let prevCell = this.playersPrev[this.activePlayer];
-    this.speed = Tracks.getPlayerSpeed(this.track, prevCell, curCell);
+    this.speed = Tracks.getPlayerSpeed(prevCell, curCell);
     this.damage = this.playersDamage[this.activePlayer];
     this.lap = this.laps[this.activePlayer];
+    this.ckpt = this.ckpts[this.activePlayer];
   }
 
   private getPlayerActions() {
@@ -166,9 +182,9 @@ export class TrackComponent implements OnInit {
       Tracks.addPlayerActionsToTrack(this.track, prevCell, activePlayer);
       this.drawTrack();
 
-      if (Tracks.getAllCells(this.track, cell => cell.type === CELL_TYPE.TARGET || cell.type === CELL_TYPE.CRASH_TARGET).length === 0) {
-        this.messageEvent.emit(["No legal moves! Your turn is skipped, you get 1 damage, and you must start at 0 speed."]);
-        this.addDamageToCurrentPlayer(1);
+      if (this.track.getAllCellsThat(cell => cell.type === CELL_TYPE.TARGET || cell.type === CELL_TYPE.TRACK_CRASH_TARGET || cell.type === CELL_TYPE.CRASH_TARGET || cell.type === CELL_TYPE.SEVERE_CRASH_TARGET).length === 0) {
+        this.messageEvent.emit(["You had a severe crash! Your turn is skipped, you get 2 damage, and you must start at 0 speed."]);
+        this.addDamageToCurrentPlayer(2);
         this.handleNoLegalMoves();
       }
   }
@@ -183,7 +199,7 @@ export class TrackComponent implements OnInit {
     if (damage >= this.playerDamageMax) {
       this.messageEvent.emit(["Your car 'sploded! Your game is over."]);
       const active = this.players[this.activePlayer];
-      Tracks.thisCell(this.track, active, cell => {
+      this.track.toThisCell(active, cell => {
         cell.type = cell.basetype;
       });
     }
@@ -211,18 +227,14 @@ export class TrackComponent implements OnInit {
   private submitAction(newCell: Cell) {
     if (newCell && newCell.type === CELL_TYPE.TARGET) {
       this.updateNewCell(newCell);
-    } else if (newCell.type === CELL_TYPE.CRASH_TARGET) {
-      const validCells = Tracks.getExtendedCells(this.track, newCell);
-      if (validCells.length === 0) {
-        this.messageEvent.emit(["That would be a severe crash! Your turn is skipped, you get 2 damage, and you must start at 0 speed."]);
-        this.addDamageToCurrentPlayer(2);
-        this.handleNoLegalMoves();
-      } else {
-        this.messageEvent.emit(["You crashed! You're back on course, but you get 1 damage and must start your next turn at 0 speed."]);
-        this.addDamageToCurrentPlayer();
-        newCell = validCells.pop(); // just get the first for now
-        this.updateNewCell(newCell, true);
-      }
+    } else if (newCell.type === CELL_TYPE.CRASH_TARGET || newCell.type === CELL_TYPE.TRACK_CRASH_TARGET) {
+      this.messageEvent.emit(["You crashed! Your turn is skipped, you get 1 damage, and you must start at 0 speed."]);
+      this.addDamageToCurrentPlayer();
+      this.handleNoLegalMoves();
+    } else if (newCell.type === CELL_TYPE.SEVERE_CRASH_TARGET) {
+      this.messageEvent.emit(["You had a severe crash! Your turn is skipped, you get 2 damage, and you must start at 0 speed."]);
+      this.addDamageToCurrentPlayer(2);
+      this.handleNoLegalMoves();
     }
   }
 
@@ -238,7 +250,7 @@ export class TrackComponent implements OnInit {
                                : CELL_TYPE.TRACK;
 
     // remove car from old cell
-    Tracks.thisCell(this.track, newPrevCell, cell => cell.type = cell.basetype);
+    this.track.toThisCell(newPrevCell, cell => cell.type = cell.basetype);
 
     // track player's cells
     this.playersPrev[this.activePlayer] = crashed ? newCell : newPrevCell;
@@ -248,7 +260,24 @@ export class TrackComponent implements OnInit {
     // remove targets from cells
     this.removeAllTargetsFromTrack();
 
-    if (Tracks.doesTrajectoryIncludeFinishLine(this.track, newPrevCell, newCell)) {
+     // user crossed/reached a checkpoint
+    let checkpoint = Tracks.doesTrajectoryIncludeCheckPoint(this.track, newPrevCell, newCell);
+    if (checkpoint > 0) {
+      const prevCkpt = this.ckpts[this.activePlayer];
+      console.log(`crossed checkpoint ${checkpoint}. prev = ${prevCkpt}`)
+      if (prevCkpt + 1 === checkpoint) {
+        this.ckpts[this.activePlayer] = checkpoint;
+      } else if (prevCkpt === checkpoint) {
+        // The user may have landed right on the checkpoint, so ignore.
+      } else if (prevCkpt < checkpoint && !newPrevCell.isCheckpoint()) {
+        this.messageEvent.emit(["You missed a checkpoint! This lap isn't going to count. Keep racing!"]);
+      } else if (prevCkpt > checkpoint && !newPrevCell.isCheckpoint()) {
+        this.ckpts[this.activePlayer] = checkpoint;
+        this.messageEvent.emit(["You're going the wrong way! Your checkpoint has reset. Turn around and keep racing!"]);
+      }
+
+    // user crossed/reached finish line
+    } else if (Tracks.doesTrajectoryIncludeFinishLine(this.track, newPrevCell, newCell)) {
       if (newPrevCell.basetype === CELL_TYPE.START_STOP) { // just left finish line
         if (this.laps[this.activePlayer] === 0) { // start first lap
           this.laps[this.activePlayer]++;
@@ -256,12 +285,17 @@ export class TrackComponent implements OnInit {
       } else { // just crossed/reached finish line
         this.drawTrack();
 
-        if (this.laps[this.activePlayer] === this.lapCount) {
-          this.messageEvent.emit(["You win!"]);
-          this.handleEndGame();
-          return;
+        if (this.ckpts[this.activePlayer] !== this.track.checkpoints) {
+          this.ckpts[this.activePlayer] = 0;
+          this.messageEvent.emit(["You missed a checkpoint! This lap didn't count. Keep racing!"]);
         } else {
-          this.laps[this.activePlayer]++;
+          if (this.laps[this.activePlayer] === this.lapCount) {
+            this.messageEvent.emit(["You win!"]);
+            this.handleEndGame();
+            return;
+          } else {
+            this.laps[this.activePlayer]++;
+          }
         }
       }
     }
@@ -272,8 +306,8 @@ export class TrackComponent implements OnInit {
   }
   
   private removeAllTargetsFromTrack() {
-    Tracks.allCells(this.track, cell => {
-      if (cell.type === CELL_TYPE.TARGET || cell.type === CELL_TYPE.CRASH_TARGET) {
+    this.track.toAllCells(cell => {
+      if (cell.type === CELL_TYPE.TARGET || cell.type === CELL_TYPE.CRASH_TARGET || cell.type === CELL_TYPE.TRACK_CRASH_TARGET || cell.type === CELL_TYPE.SEVERE_CRASH_TARGET) {
         cell.type = cell.basetype;
       }
     });
@@ -287,15 +321,19 @@ export class TrackComponent implements OnInit {
     yPixel = Math.max(0, yPixel - this.canvas.nativeElement.offsetTop);
     const x = Math.floor(xPixel / (BLOCK_SIZE + 0.0));
     const y = Math.floor(yPixel / (BLOCK_SIZE + 0.0));
-    return Tracks.getCell(this.track, x, y);
+    return this.track.getCell(x, y);
   }
 
-  private getTrack(num: number): Cell[][] {
+  private getTrack(num: number): Track {
     switch (num) {
       case 2:
         return Tracks.getTrackTwo();
       case 3:
         return Tracks.getTrackThree();
+      case 4:
+        return Tracks.getTrackFour();
+      case 5:
+        return Tracks.getTrackFive();
       case 1:
       default:
         return Tracks.getTrackOne();
@@ -304,7 +342,8 @@ export class TrackComponent implements OnInit {
 
   private updateTrackPlayers() {
     this.track = this.baseTrack; // replace all players, then remove
-    Tracks.allCells(this.track, cell => {
+    this.totalCkpts = this.track.checkpoints;
+    this.track.toAllCells(cell => {
       let cellPlayer = Number(cell.code);
       if (cellPlayer && cellPlayer > this.playerCount) {
         this.removePlayerFromCell(cell);
@@ -315,9 +354,9 @@ export class TrackComponent implements OnInit {
 
   private removePlayerFromCell(cell: Cell) {
     if (cell.isPlayer) {
-      Tracks.thisCell(this.track, cell, pl => pl.type = pl.basetype);
+      this.track.toThisCell(cell, pl => pl.type = pl.basetype);
     } else {
-      console.log(`Tried to remove player from cell ${cell.x},${cell.y}, but a player wasn't there (${cell.type}).`);
+      Logger.log(`Tried to remove player from cell ${cell.x},${cell.y}, but a player wasn't there (${cell.type}).`);
     }
   }
 
@@ -331,6 +370,7 @@ export class TrackComponent implements OnInit {
 
     this.canvas.nativeElement.onmousemove = this.handleMouseMove.bind(this);
     this.canvas.nativeElement.onmouseup = this.handleMouseClick.bind(this);
+    this.canvas.nativeElement.onmouseleave = this.handleMouseLeave.bind(this);
   }
 
   private initPlayers() {
@@ -389,6 +429,8 @@ export class TrackComponent implements OnInit {
     this.damage = 0;
     this.lap = 0;
     this.laps = [0, 0, 0, 0];
+    this.ckpt = 0;
+    this.ckpts = [0, 0, 0, 0];
     this.baseTrack = this.getTrack(this.trackNumber);
     this.track = this.baseTrack;
     this.updateTrackPlayers();
@@ -398,16 +440,21 @@ export class TrackComponent implements OnInit {
   }
 
   private drawTrack() {
-    Tracks.allCells(this.track, cell => cell.draw(this.ctx));
+    this.track.toAllCells(cell => cell.draw(this.ctx));
+    this.drawPlayerTrajectories();
+  }
+
+  private drawPlayerTrajectories() {
     this.playersTrajectory.forEach((player, i) => {
       if (player.length > 0) {
         const color = i === 0 ? COLOR.BLUE
-                      : i === 1 ? COLOR.YELLOW
-                      : i === 2 ? COLOR.PURPLE
-                      : i === 3 ? COLOR.ORANGE
-                      : COLOR.BLACK;
+                    : i === 1 ? COLOR.YELLOW
+                    : i === 2 ? COLOR.PURPLE
+                    : i === 3 ? COLOR.ORANGE
+                    : COLOR.BLACK;
         const first = player[0];
         this.ctx.strokeStyle = color;
+        this.ctx.lineWidth = 2;
         this.ctx.beginPath();
         this.ctx.moveTo(first.centerPoint.x, first.centerPoint.y);
         player.forEach(cell => {

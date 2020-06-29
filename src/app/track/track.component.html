@@ -12,21 +12,27 @@
                         [ngClass]="{p1: state===2 && activePlayer===0,p2: state===2 && activePlayer===1,p3: state===2 && activePlayer===2,p4: state===2 && activePlayer===3}">
                     </span></p>
                 <p>Lap: 
-                    <span id="lap" [ngClass]="{lap: laps[activePlayer]>=1, p1: activePlayer===0,p2: activePlayer===1,p3: activePlayer===2,p4: activePlayer===3, invisible: (state===1?lapCountInput:lapCount)<1}"></span>
-                    <span id="lap" [ngClass]="{lap: laps[activePlayer]>=2, p1: activePlayer===0,p2: activePlayer===1,p3: activePlayer===2,p4: activePlayer===3, invisible: (state===1?lapCountInput:lapCount)<2}"></span>
-                    <span id="lap" [ngClass]="{lap: laps[activePlayer]>=3, p1: activePlayer===0,p2: activePlayer===1,p3: activePlayer===2,p4: activePlayer===3, invisible: (state===1?lapCountInput:lapCount)<3}"></span>
+                    <span class="lapEl" [ngClass]="{lap: laps[activePlayer]>=1, p1: activePlayer===0,p2: activePlayer===1,p3: activePlayer===2,p4: activePlayer===3, invisible: (state===1?lapCountInput:lapCount)<1}"></span>
+                    <span class="lapEl" [ngClass]="{lap: laps[activePlayer]>=2, p1: activePlayer===0,p2: activePlayer===1,p3: activePlayer===2,p4: activePlayer===3, invisible: (state===1?lapCountInput:lapCount)<2}"></span>
+                    <span class="lapEl" [ngClass]="{lap: laps[activePlayer]>=3, p1: activePlayer===0,p2: activePlayer===1,p3: activePlayer===2,p4: activePlayer===3, invisible: (state===1?lapCountInput:lapCount)<3}"></span>
+                </p>
+                <p>Checkpoints: 
+                    <span class="ckptEl" [ngClass]="{ckpt1: ckpts[activePlayer]>=1, invisible: totalCkpts<1}"></span>
+                    <span class="ckptEl" [ngClass]="{ckpt2: ckpts[activePlayer]>=2, invisible: totalCkpts<2}"></span>
+                    <span class="ckptEl" [ngClass]="{ckpt3: ckpts[activePlayer]>=3, invisible: totalCkpts<3}"></span>
                 </p>
                 <p>Speed: {{ speed }}</p>
                 <p>Damage: 
-                    <span id="damage" [ngClass]="{damage: damage>=1, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<1}"></span>
-                    <span id="damage" [ngClass]="{damage: damage>=2, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<2}"></span>
-                    <span id="damage" [ngClass]="{damage: damage>=3, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<3}"></span>
-                    <span id="damage" [ngClass]="{damage: damage>=4, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<4}"></span>
-                    <span id="damage" [ngClass]="{damage: damage>=5, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<5}"></span>
+                    <span class="damageEl" [ngClass]="{damage: damage>=1, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<1}"></span>
+                    <span class="damageEl" [ngClass]="{damage: damage>=2, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<2}"></span>
+                    <span class="damageEl" [ngClass]="{damage: damage>=3, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<3}"></span>
+                    <span class="damageEl" [ngClass]="{damage: damage>=4, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<4}"></span>
+                    <span class="damageEl" [ngClass]="{damage: damage>=5, invisible: (state===1?playerDamageMaxInput:playerDamageMax)<5}"></span>
                 </p>
             </div>
         </div>
         <div [ngClass]="{invisible: state!==1}">
+            Race Options:
         <div class="flexRow" [ngClass]="{invisible: state!==1}">
             <span class="stretch-label">Players:</span>
             <button [ngClass]="{invisible: state!==1, selected: playerCountInput===2}" (click)="playTwo()" class="button toggleBtn">2</button>
@@ -50,6 +56,8 @@
             <button [ngClass]="{invisible: state!==1, selected: trackNumberInput===1}" (click)="trackOne()" class="button toggleBtn">1</button>
             <button [ngClass]="{invisible: state!==1, selected: trackNumberInput===2}" (click)="trackTwo()" class="button toggleBtn">2</button>
             <button [ngClass]="{invisible: state!==1, selected: trackNumberInput===3}" (click)="trackThree()" class="button toggleBtn">3</button>
+            <button [ngClass]="{invisible: state!==1, selected: trackNumberInput===4}" (click)="trackFour()" class="button toggleBtn">4</button>
+            <button [ngClass]="{invisible: state!==1, selected: trackNumberInput===5}" (click)="trackFive()" class="button toggleBtn">5</button>
         </div>
         </div>
         <div>

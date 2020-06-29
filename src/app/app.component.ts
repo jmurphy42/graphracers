@@ -27,7 +27,12 @@ export class AppComponent {
   
   displayMessage($event) {
     Logger.log("MSG >> " + $event);
-    this.message = $event
+    
+    if (!$event || $event.length === 0) {
+      this.message = [];
+    } else {
+      $event.forEach(m => this.message.push(m));
+    }
   }
 
   dismissMessage($event) {

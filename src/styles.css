@@ -93,8 +93,9 @@ body {
     filter: brightness(1.25);
 }
 
-#damage,
-#lap,
+.damageEl,
+.lapEl,
+.ckptEl,
 #playerColor {
     background-color: rgba(0, 0, 0, 0.1);
     min-width: 15px;
@@ -103,7 +104,7 @@ body {
     vertical-align: bottom;
     margin: 0 2px;
 }
-#damage {
+.damageEl {
     min-width: 10px;
 }
 
@@ -111,22 +112,22 @@ body {
     border: 5px solid #000;
     padding: 5px 10px;
 }
-#lap.lap {
+.lapEl.lap {
     background-color: #338800;
 }
-#lap.lap.p1,
+.lapEl.lap.p1,
 #playerColor.p1 {
     background-color: #5577DD;
 }
-#lap.lap.p2,
+.lapEl.lap.p2,
 #playerColor.p2 {
     background-color: #DDCC33;
 }
-#lap.lap.p3,
+.lapEl.lap.p3,
 #playerColor.p3 {
     background-color: #8855DD;
 }
-#lap.lap.p4,
+.lapEl.lap.p4,
 #playerColor.p4 {
     background-color: #DD7733;
 }
@@ -146,7 +147,16 @@ body {
 .track.p4 {
     border-color: #DD7733;
 }
-#damage.damage {
+.ckptEl.ckpt1 {
+    background-color: #5577DD80;
+}
+.ckptEl.ckpt2 {
+    background-color: #DDCC3380;
+}
+.ckptEl.ckpt3 {
+    background-color: #8855DD80;
+}
+.damageEl.damage {
     background-color: #CC3333;
 }
 .invisible {
