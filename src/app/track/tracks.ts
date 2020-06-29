@@ -218,6 +218,39 @@ export class Tracks {
         track.push(this.getTrackRow(38, 'XXXXXXXXXXXXXX.........S..XXXXXXXXXXXXXX'));
         track.push(this.getTrackRow(39, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
 
+        track[32][23].text = "🡢"; // 🡠 🡢 🡡 🡣 🡤 🡥 🡦 🡧
+        track[39][23].text = "🡢";
+        track[8][32].text = "🡡";
+        track[8][39].text = "🡡";
+        track[12][4].text = "🡣";
+        track[12][9].text = "🡣";
+        track[16][33].text = "1";
+        track[16][39].text = "1";
+        track[16][33].textColor = COLOR.BLUE;
+        track[16][39].textColor = COLOR.BLUE;
+        track[19][1].text = "2";
+        track[19][7].text = "2";
+        track[19][1].textColor = COLOR.YELLOW;
+        track[19][7].textColor = COLOR.YELLOW;
+        track[27][17].text = "R";
+        track[27][19].text = "I";
+        track[27][21].text = "V";
+        track[27][23].text = "E";
+        track[27][25].text = "R";
+        track[29][18].text = "W";
+        track[29][20].text = "I";
+        track[29][22].text = "L";
+        track[29][24].text = "D";
+        track[27][17].textColor = COLOR.GREEN;
+        track[27][19].textColor = COLOR.GREEN;
+        track[27][21].textColor = COLOR.GREEN;
+        track[27][23].textColor = COLOR.GREEN;
+        track[27][25].textColor = COLOR.GREEN;
+        track[29][18].textColor = COLOR.GREEN;
+        track[29][20].textColor = COLOR.GREEN;
+        track[29][22].textColor = COLOR.GREEN;
+        track[29][24].textColor = COLOR.GREEN;
+
         return new Track(track, 2);
     }
 
@@ -265,6 +298,37 @@ export class Tracks {
         track.push(this.getTrackRow(38, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
         track.push(this.getTrackRow(39, 'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
 
+        track[35][23].text = "🡢"; // 🡠 🡢 🡡 🡣 🡤 🡥 🡦 🡧
+        track[28][23].text = "🡢";
+        track[4][17].text = "🡠";
+        track[11][17].text = "🡠";
+        track[19][32].text = "1";
+        track[19][39].text = "1";
+        track[19][32].textColor = COLOR.BLUE;
+        track[19][39].textColor = COLOR.BLUE;
+        track[19][0].text = "2";
+        track[19][7].text = "2";
+        track[19][0].textColor = COLOR.YELLOW;
+        track[19][7].textColor = COLOR.YELLOW;
+        track[18][16].text = "D";
+        track[18][18].text = "O";
+        track[18][20].text = "N";
+        track[18][22].text = "U";
+        track[18][24].text = "T";
+        track[21][17].text = "H";
+        track[21][19].text = "O";
+        track[21][21].text = "L";
+        track[21][23].text = "E";
+        track[18][16].textColor = COLOR.GREEN;
+        track[18][18].textColor = COLOR.GREEN;
+        track[18][20].textColor = COLOR.GREEN;
+        track[18][22].textColor = COLOR.GREEN;
+        track[18][24].textColor = COLOR.GREEN;
+        track[21][17].textColor = COLOR.GREEN;
+        track[21][19].textColor = COLOR.GREEN;
+        track[21][21].textColor = COLOR.GREEN;
+        track[21][23].textColor = COLOR.GREEN;
+
         return new Track(track, 2);
     }
 
@@ -274,11 +338,11 @@ export class Tracks {
         track.push(this.getTrackRow(0,  'XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX'));
         track.push(this.getTrackRow(1,  'XXXXXXXXXXXXXXXXXXXXXXXXXXX......XXXXXXX'));
         track.push(this.getTrackRow(2,  'XXXXXXXXXXXXXXXXXXXXXXXXX...........XXXX'));
-        track.push(this.getTrackRow(3,  'XXXXXX.........XXXXXXXXX..............XX'));
-        track.push(this.getTrackRow(4,  'XXXX.............XXXXXX...............XX'));
-        track.push(this.getTrackRow(5,  'XXX................XXX.................X'));
-        track.push(this.getTrackRow(6,  'XXX....................................X'));
-        track.push(this.getTrackRow(7,  'XXX...........................XX.......X'));
+        track.push(this.getTrackRow(3,  'XXXXXX.......w.XXXXXXXXX..............XX'));
+        track.push(this.getTrackRow(4,  'XXXX.........w...XXXXXX...............XX'));
+        track.push(this.getTrackRow(5,  'XXX..........w.....XXX.................X'));
+        track.push(this.getTrackRow(6,  'XXX..........w.........................X'));
+        track.push(this.getTrackRow(7,  'XXX..........w................XX.......X'));
         track.push(this.getTrackRow(8,  'XXX..........XXX.............XXXX......X'));
         track.push(this.getTrackRow(9,  'XXX........XXXXXXX.........XXXXXX......X'));
         track.push(this.getTrackRow(10, 'XXX........XXXXXXXXX.....XXXXXXX......XX'));
@@ -296,12 +360,12 @@ export class Tracks {
         track.push(this.getTrackRow(22, 'XX...........XXXXXX......XXX.........XXX'));
         track.push(this.getTrackRow(23, 'X..............XXXX.......XXX.........XX'));
         track.push(this.getTrackRow(24, 'X................XX........XXX........XX'));
-        track.push(this.getTrackRow(25, 'X.................w........XXXXX.......X'));
-        track.push(this.getTrackRow(26, 'X......XXX........w........XXXXXX......X'));
-        track.push(this.getTrackRow(27, 'X......XXXX.......w........XXXXXXX.....X'));
-        track.push(this.getTrackRow(28, 'X.......XXXX......w.......XXXXXXXX.....X'));
-        track.push(this.getTrackRow(29, 'X.......XXXXXX....w.......XXXXXXX......X'));
-        track.push(this.getTrackRow(30, 'X........XXXXXX...w......XXXXXXX.......X'));
+        track.push(this.getTrackRow(25, 'X.................e........XXXXX.......X'));
+        track.push(this.getTrackRow(26, 'X......XXX........e........XXXXXX......X'));
+        track.push(this.getTrackRow(27, 'X......XXXX.......e........XXXXXXX.....X'));
+        track.push(this.getTrackRow(28, 'X.......XXXX......e.......XXXXXXXX.....X'));
+        track.push(this.getTrackRow(29, 'X.......XXXXXX....e.......XXXXXXX......X'));
+        track.push(this.getTrackRow(30, 'X........XXXXXX...e......XXXXXXX.......X'));
         track.push(this.getTrackRow(31, 'XX........XXXXXXXXXXXXXXXXXXXXX.......XX'));
         track.push(this.getTrackRow(32, 'XX...........XXXXXXXXXXXXXXXX.........XX'));
         track.push(this.getTrackRow(33, 'XX.......................S...........XXX'));
@@ -316,24 +380,44 @@ export class Tracks {
         track[39][25].text = "🡢";
         track[10][2].text = "🡣";
         track[10][11].text = "🡣";
+        track[8][32].text = "🡤";
+        track[2][36].text = "🡤";
         track[18][26].text = "1";
         track[18][34].text = "1";
         track[18][26].textColor = COLOR.BLUE;
         track[18][34].textColor = COLOR.BLUE;
-        track[24][18].text = "2";
-        track[31][18].text = "2";
-        track[24][18].textColor = COLOR.YELLOW;
-        track[31][18].textColor = COLOR.YELLOW;
+        track[8][13].text = "2";
+        track[2][13].text = "2";
+        track[8][13].textColor = COLOR.YELLOW;
+        track[2][13].textColor = COLOR.YELLOW;
+        track[24][18].text = "3";
+        track[31][18].text = "3";
+        track[24][18].textColor = COLOR.PURPLE;
+        track[31][18].textColor = COLOR.PURPLE;
+        track[17][2].text = "C";
+        track[17][3].text = "A";
+        track[17][4].text = "P";
+        track[17][5].text = "T";
+        track[17][6].text = "A";
+        track[17][7].text = "I";
+        track[17][8].text = "N";
         track[18][2].text = "H";
         track[18][4].text = "O";
         track[18][6].text = "O";
         track[18][8].text = "K";
+        track[17][2].textColor = COLOR.GREEN;
+        track[17][3].textColor = COLOR.GREEN;
+        track[17][4].textColor = COLOR.GREEN;
+        track[17][5].textColor = COLOR.GREEN;
+        track[17][6].textColor = COLOR.GREEN;
+        track[17][7].textColor = COLOR.GREEN;
+        track[17][8].textColor = COLOR.GREEN;
         track[18][2].textColor = COLOR.GREEN;
         track[18][4].textColor = COLOR.GREEN;
         track[18][6].textColor = COLOR.GREEN;
         track[18][8].textColor = COLOR.GREEN;
 
-        return new Track(track, 2);
+        return new Track(track, 3);
     }
 
     public static getTrackFour(): Track {
@@ -384,6 +468,8 @@ export class Tracks {
         track[36][20].text = "🡢";
         track[0][28].text = "🡠";
         track[5][28].text = "🡠";
+        track[23][8].text = "🡧";
+        track[18][4].text = "🡧";
         track[16][16].text = "1";
         track[16][23].text = "1";
         track[16][16].textColor = COLOR.BLUE;

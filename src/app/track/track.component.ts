@@ -60,7 +60,11 @@ export class TrackComponent implements OnInit {
     this.initTrack();
     this.playerCount = 0;
     this.resetGame();
-    this.messageEvent.emit(["Welcome, Graph Racers!", "Start your engines!"])
+    this.displayMessage(["Welcome, Graph Racers!", "Start your engines!"]);
+  }
+
+  displayMessage(msgs: string[]) {
+    this.messageEvent.emit(msgs);
   }
 
   newGame() {
@@ -183,7 +187,8 @@ export class TrackComponent implements OnInit {
       this.drawTrack();
 
       if (this.track.getAllCellsThat(cell => cell.type === CELL_TYPE.TARGET || cell.type === CELL_TYPE.TRACK_CRASH_TARGET || cell.type === CELL_TYPE.CRASH_TARGET || cell.type === CELL_TYPE.SEVERE_CRASH_TARGET).length === 0) {
-        this.messageEvent.emit(["You had a severe crash! Your turn is skipped, you get 2 damage, and you must start at 0 speed."]);
+        this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}</span> <span class="red">has had a severe crash!</span>`]);
+        this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}</span> loses a turn, gets 2 damage, and must start at 0 speed.`]);
         this.addDamageToCurrentPlayer(2);
         this.handleNoLegalMoves();
       }
@@ -197,7 +202,8 @@ export class TrackComponent implements OnInit {
   private handleDamage() {
     let damage = this.playersDamage[this.activePlayer];
     if (damage >= this.playerDamageMax) {
-      this.messageEvent.emit(["Your car 'sploded! Your game is over."]);
+      this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}'s</span> <span class="red">car 'sploded!</span>`]);
+      this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}'s</span> game is over.`]);
       const active = this.players[this.activePlayer];
       this.track.toThisCell(active, cell => {
         cell.type = cell.basetype;
@@ -214,7 +220,7 @@ export class TrackComponent implements OnInit {
   }
 
   private handleNoPlayersLeft() {
-    this.messageEvent.emit(["You ALL 'sploded!? This game is over and no one wins. What a shame."]);
+    this.displayMessage([`You ALL 'sploded!? This game is over and no one wins. What a shame.`]);
     this.handleEndGame();
   }
 
@@ -228,11 +234,13 @@ export class TrackComponent implements OnInit {
     if (newCell && newCell.type === CELL_TYPE.TARGET) {
       this.updateNewCell(newCell);
     } else if (newCell.type === CELL_TYPE.CRASH_TARGET || newCell.type === CELL_TYPE.TRACK_CRASH_TARGET) {
-      this.messageEvent.emit(["You crashed! Your turn is skipped, you get 1 damage, and you must start at 0 speed."]);
+      this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}</span> <span class="red">crashed!</span>`]);
+      this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}</span> loses a turn, gets 1 damage, and must start at 0 speed.`]);
       this.addDamageToCurrentPlayer();
       this.handleNoLegalMoves();
     } else if (newCell.type === CELL_TYPE.SEVERE_CRASH_TARGET) {
-      this.messageEvent.emit(["You had a severe crash! Your turn is skipped, you get 2 damage, and you must start at 0 speed."]);
+      this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}</span> <span class="red">You had a severe crash!</span>`]);
+      this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}</span> loses a turn, gets 2 damage, and must start at 0 speed.`]);
       this.addDamageToCurrentPlayer(2);
       this.handleNoLegalMoves();
     }
@@ -264,16 +272,17 @@ export class TrackComponent implements OnInit {
     let checkpoint = Tracks.doesTrajectoryIncludeCheckPoint(this.track, newPrevCell, newCell);
     if (checkpoint > 0) {
       const prevCkpt = this.ckpts[this.activePlayer];
-      console.log(`crossed checkpoint ${checkpoint}. prev = ${prevCkpt}`)
       if (prevCkpt + 1 === checkpoint) {
         this.ckpts[this.activePlayer] = checkpoint;
       } else if (prevCkpt === checkpoint) {
         // The user may have landed right on the checkpoint, so ignore.
       } else if (prevCkpt < checkpoint && !newPrevCell.isCheckpoint()) {
-        this.messageEvent.emit(["You missed a checkpoint! This lap isn't going to count. Keep racing!"]);
+        this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}</span> <span class="semired">missed a checkpoint!</span>`]);
+        this.displayMessage([`This lap isn't going to count. Keep racing!`]);
       } else if (prevCkpt > checkpoint && !newPrevCell.isCheckpoint()) {
         this.ckpts[this.activePlayer] = checkpoint;
-        this.messageEvent.emit(["You're going the wrong way! Your checkpoint has reset. Turn around and keep racing!"]);
+        this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}</span> <span class="semired">is going the wrong way!</span>`]);
+        this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}'s</span> checkpoint has reset. Turn around and keep racing!`]);
       }
 
     // user crossed/reached finish line
@@ -287,10 +296,11 @@ export class TrackComponent implements OnInit {
 
         if (this.ckpts[this.activePlayer] !== this.track.checkpoints) {
           this.ckpts[this.activePlayer] = 0;
-          this.messageEvent.emit(["You missed a checkpoint! This lap didn't count. Keep racing!"]);
+          this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()}</span> <span class="semired">missed a checkpoint!</span>`]);
+          this.displayMessage([`This lap didn't count. Keep racing!`]);
         } else {
           if (this.laps[this.activePlayer] === this.lapCount) {
-            this.messageEvent.emit(["You win!"]);
+            this.displayMessage([`<span class="${this.activePlayerClass()}">${this.activePlayerName()} wins!</span>`]);
             this.handleEndGame();
             return;
           } else {
@@ -303,6 +313,22 @@ export class TrackComponent implements OnInit {
     this.drawTrack();
     this.getPlayerActions();
     this.drawTrack();
+  }
+
+  private activePlayerName(): string {
+    return this.activePlayer === 0 ? "BLUE"
+           : this.activePlayer === 1 ? "YELLOW"
+           : this.activePlayer === 2 ? "PURPLE"
+           : this.activePlayer === 3 ? "ORANGE"
+           : "CAR";
+  }
+
+  private activePlayerClass(): string {
+    return this.activePlayer === 0 ? "p1"
+           : this.activePlayer === 1 ? "p2"
+           : this.activePlayer === 2 ? "p3"
+           : this.activePlayer === 3 ? "p4"
+           : "";
   }
   
   private removeAllTargetsFromTrack() {
@@ -356,7 +382,7 @@ export class TrackComponent implements OnInit {
     if (cell.isPlayer) {
       this.track.toThisCell(cell, pl => pl.type = pl.basetype);
     } else {
-      Logger.log(`Tried to remove player from cell ${cell.x},${cell.y}, but a player wasn't there (${cell.type}).`);
+      Logger.verbose(`Tried to remove player from cell ${cell.x},${cell.y}, but a player wasn't there (${cell.type}).`);
     }
   }
 

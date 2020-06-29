@@ -5,7 +5,7 @@ import { Component, OnInit, Input, ViewChild, ElementRef, Output, EventEmitter }
   template: `
     <div #msgBack id="msgBack" [ngClass]="{dismissed: message.length === 0}">
         <div #msgDiv id="msgDiv" [ngClass]="{dismissed: message.length === 0}">
-          <p *ngFor="let m of message">{{m}}</p>
+            <p *ngFor="let m of message" [innerHTML]="m"></p>
         </div>
     </div>
   `,

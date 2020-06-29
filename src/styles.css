@@ -121,7 +121,7 @@ body {
 }
 .lapEl.lap.p2,
 #playerColor.p2 {
-    background-color: #DDCC33;
+    background-color: #888800;
 }
 .lapEl.lap.p3,
 #playerColor.p3 {
@@ -137,7 +137,7 @@ body {
 }
 #playerInfo.p2,
 .track.p2 {
-    border-color: #DDCC33;
+    border-color: #888800;
 }
 #playerInfo.p3,
 .track.p3 {
@@ -151,7 +151,7 @@ body {
     background-color: #5577DD80;
 }
 .ckptEl.ckpt2 {
-    background-color: #DDCC3380;
+    background-color: #88880080;
 }
 .ckptEl.ckpt3 {
     background-color: #8855DD80;
@@ -182,4 +182,23 @@ body {
 }
 .stretch-label {
     width: 100%;
+}
+
+span.p1 {
+    color: #5577DD;
+}
+span.p2 {
+    color: #888800;
+}
+span.p3 {
+    color: #8855DD;
+}
+span.p4 {
+    color: #DD7733;
+}
+span.red {
+    color: #CC3333;
+}
+span.orange {
+    color: #BB6633;
 }

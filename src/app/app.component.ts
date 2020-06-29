@@ -1,7 +1,6 @@
 import { Component, ViewChild, ElementRef } from '@angular/core';
 import { Logger } from './logger';
 
-
 @Component({
   selector: 'app-root',
   template: `
